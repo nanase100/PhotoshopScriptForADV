@@ -1,29 +1,46 @@
 
-	var activeLayerSet = activeDocument.activeLayer.parent;
+	var baseName 				= activeDocument.name.split('.')[0];						//ベースファイル名取得。元PSDファイルから拡張子を取り除いたモノ。例)RAIN_0x01.psd -> RAIN_0x01
+	var activeLayerSet			= activeDocument.activeLayer.parent;
+	
 	if( activeDocument.activeLayer.typename == "LayerSet" )
 	{
 		activeLayerSet = activeDocument.activeLayer;
 	}
 	
-	setShowState( activeLayerSet );
+	setLayerState( activeLayerSet );
 	
 	procLayerObj( activeLayerSet );
+	
+	activeLayerSet.artLayers.add().name = "@$_0a";
+	
 
 
 
 
-function setShowState( workLayerSet )
+function setLayerState( workLayerSet )
 {
+	
+	workLayerSet.name = "[" + baseName +"]";
+
 	var loopCount	= workLayerSet.artLayers.length;
 	var lastNo 		= workLayerSet.artLayers.length - 1;
-	
+	var diffCode	= "";
+	var nameLen		= 0;
+		
 	for( var i = 0; i < loopCount; i++ )
 	{
 		workLayerSet.artLayers[i].visible = false;
+		
+		nameLen		= workLayerSet.artLayers[i].name.length;
+		diffCode	= workLayerSet.artLayers[i].name.substr( nameLen-1, 1 );
+		
+		if( diffCode == "a" )	diffCode = "1";
+		else					diffCode = "0" + diffCode;
+		workLayerSet.artLayers[i].name = "@$_" + diffCode;// + "  " + workLayerSet.artLayers[i].name;
 	}
 	
 	workLayerSet.artLayers[lastNo].visible = true;
-	
+		
 }
 
 
