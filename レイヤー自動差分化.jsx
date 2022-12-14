@@ -11,7 +11,6 @@
 	
 	procLayerObj( activeLayerSet );
 	
-	activeLayerSet.artLayers.add().name = "@$_0a";
 	
 
 
@@ -26,10 +25,10 @@ function setLayerState( workLayerSet )
 	var lastNo 		= workLayerSet.artLayers.length - 1;
 	var diffCode	= "";
 	var nameLen		= 0;
-		
+	
 	for( var i = 0; i < loopCount; i++ )
 	{
-		workLayerSet.artLayers[i].visible = false;
+		
 		
 		nameLen		= workLayerSet.artLayers[i].name.length;
 		diffCode	= workLayerSet.artLayers[i].name.substr( nameLen-1, 1 );
@@ -37,7 +36,9 @@ function setLayerState( workLayerSet )
 		if( diffCode == "a" )	diffCode = "1";
 		else					diffCode = "0" + diffCode;
 		workLayerSet.artLayers[i].name = "@$_" + diffCode;// + "  " + workLayerSet.artLayers[i].name;
+		workLayerSet.artLayers[i].visible = false;
 	}
+	
 	
 	workLayerSet.artLayers[lastNo].visible = true;
 		
